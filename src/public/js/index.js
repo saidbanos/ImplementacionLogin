@@ -100,3 +100,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 });
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+        const response = await fetch('/api/sessions/logout');
+        const data = await response.json();
+        
+        if (response.status === 200 && (data.status === "success" || data.status === "info")) {
+            window.location.replace('/login'); // Redirect to login page
+        } else {
+            alert(data.message || 'Failed to log out.'); // Alert any error message or a default message
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+});

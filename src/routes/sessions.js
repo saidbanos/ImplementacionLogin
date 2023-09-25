@@ -23,7 +23,6 @@ router.post('/login', async (req, res) => {
     res.send({ status: "success", message: "Logged in successfully!" });
 });
 
-
 router.post('/register', async (req, res) => {
     const { first_name, last_name, email, age, password } = req.body;
     const exists = await userModel.findOne({ email });
@@ -36,5 +35,19 @@ router.post('/register', async (req, res) => {
     let result = await userModel.create(user);
     res.send({status:"success", message: "User registered"})
 })
+
+router.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy(error => {
+            if (error) {
+                return res.status(500).send({ status: "error", message: "Couldn't log out. Please try again!" });
+            }
+            res.clearCookie('connect.sid'); // assuming you're using the default session cookie name
+            return res.status(200).send({ status: "success", message: "Successfully logged out!" });
+        });
+    } else {
+        return res.status(200).send({ status: "info", message: "No active session found!" });
+    }
+});
 
 export default router;
