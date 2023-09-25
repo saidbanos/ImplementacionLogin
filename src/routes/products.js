@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
 				: null,
 		};
 
-		res.json(response);
+		//res.json(response);
 		res.render("products", { products: response.payload, pageInfo: response });
 
 	} catch (error) {

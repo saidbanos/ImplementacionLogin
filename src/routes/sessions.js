@@ -6,17 +6,23 @@ const router = Router();
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email, password })
-    if (!user) return res.status(400).send({ status: "error", error: "credenciales incorrectas" });
+    const user = await userModel.findOne({ email, password });
+    if (!user) {
+        return res.status(400).send({
+            status: "error",
+            message: "Invalid email or password."
+        });
+    }
 
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
         age: user.age
-    }
-    //res.send({ status: "success", payload: req.session.user })
-    res.redirect('/products');
-})
+    };
+
+    res.send({ status: "success", message: "Logged in successfully!" });
+});
+
 
 router.post('/register', async (req, res) => {
     const { first_name, last_name, email, age, password } = req.body;
