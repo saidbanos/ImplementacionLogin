@@ -11,7 +11,23 @@ const productsPath = path.join(__dirname, "..", "src", "productos.json");
 
 const productManager = new ProductManager(productsPath);
 
-router.get("/", async (req, res) => {
+const publicAccess = (req, res, next) => {
+    if (req.session.user) return res.redirect('/profile');
+    next();
+}
+
+const privateAccess = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+router.get("/", publicAccess, (req, res) => {
+    res.render('login');
+});
+
+router.get("/products", privateAccess, async (req, res) => {
 	try {
 		const limit = parseInt(req.query.limit) || 10;
 		const page = parseInt(req.query.page) || 1;
@@ -57,7 +73,7 @@ router.get("/", async (req, res) => {
 				: null,
 		};
 
-		res.render("index", { products: response.payload, pageInfo: response });
+		res.render("index", { products: response.payload, pageInfo: response, user: req.session.user });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send("Internal server error");
@@ -82,18 +98,6 @@ router.get("/carts/:cid", async (req, res) => {
 		res.status(500).send("Internal server error");
 	}
 });
-
-const publicAccess = (req, res, next) => {
-    if (req.session.user) return res.redirect('/profile');
-    next();
-}
-
-const privateAccess = (req, res, next) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-    next();
-}
 
 router.get('/login', publicAccess, (req, res)=> {
     res.render('login');

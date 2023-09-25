@@ -14,7 +14,8 @@ router.post('/login', async (req, res) => {
         email: user.email,
         age: user.age
     }
-    res.send({ status: "success", payload: req.session.user })
+    //res.send({ status: "success", payload: req.session.user })
+    res.redirect('/products');
 })
 
 router.post('/register', async (req, res) => {

@@ -62,6 +62,8 @@ router.get("/", async (req, res) => {
 		};
 
 		res.json(response);
+		res.render("products", { products: response.payload, pageInfo: response });
+
 	} catch (error) {
 		console.error(error);
 		res.status(500).send("Error getting products from the database.");

@@ -79,7 +79,6 @@ app.use((req, res, next) => {
 
 	app.use("/", viewsRoute);
 	app.use('/api/sessions', sessionsRouter)
-	app.use("/products", viewsRoute);
 	app.use(
 		"/realtimeproducts",
 		realTimeProductsRoute({ socketServer, productManager })
