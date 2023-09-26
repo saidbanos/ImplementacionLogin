@@ -62,7 +62,7 @@ router.get("/", async (req, res) => {
 		};
 
 		//res.json(response);
-		res.render("products", { products: response.payload, pageInfo: response });
+		res.render("products", { products: response.payload, pageInfo: response, user: req.session.user });
 
 	} catch (error) {
 		console.error(error);

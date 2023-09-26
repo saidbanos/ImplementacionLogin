@@ -20,6 +20,12 @@ router.post('/login', async (req, res) => {
         age: user.age
     };
 
+    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        req.session.user.role = "admin";
+    } else {
+        req.session.user.role = "user";
+    }
+
     res.send({ status: "success", message: "Logged in successfully!" });
 });
 
