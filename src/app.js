@@ -1,11 +1,11 @@
 import express from "express";
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import mongoose from 'mongoose';
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import viewsRoute from "./routes/views.js";
-import sessionsRouter from './routes/sessions.js'
+import sessionsRouter from "./routes/sessions.js";
 import { Server } from "socket.io";
 
 import productsRouter from "./routes/products.js";
@@ -67,18 +67,21 @@ app.use((req, res, next) => {
 
 	const productManager = new ProductManager(productsPath, socketServer);
 
-	app.use(session({
-		store: MongoStore.create({
-			mongoUrl: 'mongodb+srv://CoderUser:Ag9W4iSW7LWPNtsZ@cluster0.hwubstf.mongodb.net/ecommerce',
-			ttl: 3600
-		}),
-		secret: "CoderSecret",
-		resave: false,
-		saveUninitialized: false
-	}))
+	app.use(
+		session({
+			store: MongoStore.create({
+				mongoUrl:
+					"mongodb+srv://CoderUser:Ag9W4iSW7LWPNtsZ@cluster0.hwubstf.mongodb.net/ecommerce",
+				ttl: 3600,
+			}),
+			secret: "CoderSecret",
+			resave: false,
+			saveUninitialized: false,
+		})
+	);
 
 	app.use("/", viewsRoute);
-	app.use('/api/sessions', sessionsRouter)
+	app.use("/api/sessions", sessionsRouter);
 	app.use(
 		"/realtimeproducts",
 		realTimeProductsRoute({ socketServer, productManager })

@@ -1,29 +1,28 @@
-const form = document.getElementById('registerForm');
+const form = document.getElementById("registerForm");
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const obj = {};
-    data.forEach((value, key) => obj[key] = value);
-    fetch('api/sessions/register', {
-        method: 'POST',
-        body: JSON.stringify(obj),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(result => {
-        if (result.status === 200) {
-            window.location.replace('/products');
-        } else {
-            return result.json();
-        }
-    })
-    .then(json => {
-        if (json) {
-            console.log(json);
-            // Optionally display an error message on the page.
-        }
-    })
-    .catch(error => console.error('Error:', error));
+form.addEventListener("submit", (e) => {
+	e.preventDefault();
+	const data = new FormData(form);
+	const obj = {};
+	data.forEach((value, key) => (obj[key] = value));
+	fetch("api/sessions/register", {
+		method: "POST",
+		body: JSON.stringify(obj),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then((result) => {
+			if (result.status === 200) {
+				window.location.replace("/products");
+			} else {
+				return result.json();
+			}
+		})
+		.then((json) => {
+			if (json) {
+				console.log(json);
+			}
+		})
+		.catch((error) => console.error("Error:", error));
 });
