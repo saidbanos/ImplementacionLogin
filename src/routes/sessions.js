@@ -39,7 +39,8 @@ router.post('/register', async (req, res) => {
         first_name, last_name, email, age, password
     };
     let result = await userModel.create(user);
-    res.send({status:"success", message: "User registered"})
+    res.redirect('/products');
+
 })
 
 router.get('/logout', (req, res) => {
